@@ -17,6 +17,8 @@ set(PROJECT_SOURCES
         widget.cpp
         widget.h
         widget.ui
+        datasource.h
+        datasource.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

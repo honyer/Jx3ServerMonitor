@@ -1,9 +1,9 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
-#include <QNetworkAccessManager>
 #include <QTimer>
 #include <QWidget>
+#include "datasource.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -18,32 +18,34 @@ public:
     ~Widget();
 
 private slots:
-    void on_pbnUpdate_clicked();
 
     void on_pbnMonitor_clicked();
 
     void on_cbxServerLine_currentIndexChanged(int index);
 
+    // 定义槽函数 slotDownloadFinished，用于接收 downloadFinished 信号
+    void slotDownloadFinished(DataSource::SourceFrom sf, bool success, const QByteArray &data);
+
 private:
     Ui::Widget *ui;
+    static const QString SERVERLIST_FILE;
+
     QTimer timer;
-    QNetworkAccessManager *manager;
 
-    static const QString JX3_SERVER_URL;
-    static const QString SERVER_FILE;
+    DataSource *ds;
 
-    QSet<QString> uniqueSet;
-    QSet<QString> uniqueServerLine;
-    QSet<QString> uniqueServerName;
+    QStringList serverList;
 
-    void loadFile();
-
-    void downLoad();
+    void loadData();
 
     void removeDuplicates(QStringList serverList);
 
     void loadComBoxItem();
 
     void startMonitoring();
+
+    void download();
+
+    void loadMoheData(QByteArray data);
 };
 #endif // WIDGET_H
